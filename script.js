@@ -2,28 +2,6 @@ import * as THREE from "https://cdn.jsdelivr.net/npm/three@0.118/build/three.mod
 
 import { FBXLoader } from "https://cdn.jsdelivr.net/npm/three@0.118.1/examples/jsm/loaders/FBXLoader.js";
 import { GLTFLoader } from "https://cdn.jsdelivr.net/npm/three@0.118.1/examples/jsm/loaders/GLTFLoader.js";
-const _VS = `
-varying vec3 vWorldPosition;
-
-void main() {
-  vec4 worldPosition = modelMatrix * vec4( position, 1.0 );
-  vWorldPosition = worldPosition.xyz;
-
-  gl_Position = projectionMatrix * modelViewMatrix * vec4( position, 1.0 );
-}`;
-
-const _FS = `
-uniform vec3 topColor;
-uniform vec3 bottomColor;
-uniform float offset;
-uniform float exponent;
-
-varying vec3 vWorldPosition;
-
-void main() {
-  float h = normalize( vWorldPosition + offset ).y;
-  gl_FragColor = vec4( mix( bottomColor, topColor, max( pow( max( h , 0.0), exponent ), 0.0 ) ), 1.0 );
-}`;
 
 class BasicCharacterControllerProxy {
   constructor(animations) {
@@ -98,6 +76,9 @@ class BasicCharacterController {
       });
       loader.load("dance.fbx", (a) => {
         _OnLoad("dance", a);
+      });
+      loader.load("punch.fbx", (a) => {
+        _OnLoad("punch", a);
       });
     });
   }
